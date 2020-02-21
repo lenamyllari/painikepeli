@@ -21,13 +21,18 @@ app.use(cors({
 }));
 
 app.use('/api', painikePeliApi);
-
+/*
 var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = process.env.PORT || 5000;
    // var port = server.address().port;
     //
-    /* eslint-disable no-console */
+    /* eslint-disable no-console
     console.log("Example app listening at http://%s:%s", host, port)
-    /* eslint-enable no-console */
+    /* eslint-enable no-console
+});
+*/
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
 });
