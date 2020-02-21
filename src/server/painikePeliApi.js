@@ -75,7 +75,7 @@ router.get("/getsaldo", function (req, res) {
 
 //get amount clicks
 router.get("/clicks", function (req, res) {
-    var sql = "SELECT (amount) FROM click WHERE id=1";
+    var sql = "SELECT (amount) FROM clicks WHERE id=1";
     con.query(sql,function (err, result) {
         if (err)
             throw (err);
@@ -87,12 +87,12 @@ router.get("/clicks", function (req, res) {
 
 //update amount clicks
 router.get("/updateclicks", function (req, res) {
-    var sql = "UPDATE click SET amount=amount+1 WHERE id=1";
+    var sql = "UPDATE clicks SET amount=amount+1 WHERE id=1";
     con.query(sql,function (err, result) {
         if (err)
             throw (err);
         else {
-            var sql = "SELECT (amount) FROM click WHERE id=1";
+            var sql = "SELECT (amount) FROM clicks WHERE id=1";
             con.query(sql,function (err, result) {
                 if (err)
                     throw (err);
