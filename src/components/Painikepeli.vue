@@ -40,7 +40,7 @@
                 this.win250 = false;
                 this.win5 = false;
                 axios
-                    .get("http://localhost:3000/api/updateSaldo/?id=" + this.id)
+                    .get("https://painikepeli2020lena.herokuapp.com:3000/api/updateSaldo/?id=" + this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
@@ -51,7 +51,7 @@
             },
             getsaldo(){
                 axios
-                    .get("http://localhost:3000/api/getsaldo/?id=" + this.id)
+                    .get("https://painikepeli2020lena.herokuapp.com/:3000/api/getsaldo/?id=" + this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
@@ -64,7 +64,7 @@
             },
             getClicks(){
                 axios
-                    .get("http://localhost:3000/api/clicks/")
+                    .get("https://painikepeli2020lena.herokuapp.com:3000/api/clicks/")
                     .then( response => {
                         // eslint-disable-next-line no-console
                         //console.log(response);
@@ -73,7 +73,7 @@
             },
             updateClicks(){
                 axios
-                    .get("http://localhost:3000/api/updateclicks/")
+                    .get("https://painikepeli2020lena.herokuapp.com:3000/api/updateclicks/")
                     .then( response => {
                         // eslint-disable-next-line no-console
                         //console.log("update cliskc response" +response);
@@ -96,7 +96,7 @@
             },
             addsaldo(amount){
                 axios
-                    .get("http://localhost:3000/api/addsaldo/?amount=" + amount + "&&user="+this.id)
+                    .get("https://painikepeli2020lena.herokuapp.com:3000/api/addsaldo/?amount=" + amount + "&&user="+this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
@@ -116,7 +116,7 @@
             },
             resetsaldo(){
                 axios
-                    .get("http://localhost:3000/api/resetSaldo/?id=" + this.id)
+                    .get("https://painikepeli2020lena.herokuapp.com:3000/api/resetSaldo/?id=" + this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
@@ -131,7 +131,7 @@
         mounted(){
             if(this.$cookies.get('id') == null){
                 axios
-                    .get("http://localhost:3000/api/adduser/")
+                    .get("https://painikepeli2020lena.herokuapp.com:3000/api/adduser/")
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
