@@ -14,6 +14,7 @@ con.connect();
 
 //add a player
 router.get("/adduser", function (req, res) {
+
     var q = url.parse(req.url, true).query;
     var money = q.money;
     var sql = "INSERT INTO users (money)  VALUES (20)";
