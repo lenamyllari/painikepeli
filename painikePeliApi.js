@@ -9,7 +9,7 @@ const url = require('url');
 const jwt = require('jsonwebtoken');
 
 
-const con = mysql.createConnection({user: db.user, password: db.password, host: db.host, database: db.database});
+const con = mysql.createPool({user: db.user, password: db.password, host: db.host, database: db.database});
 con.connect();
 
 //add a player

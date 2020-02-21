@@ -23,10 +23,28 @@ app.use(cors({
 var path = require('path');
 var serveStatic = require('serve-static');
 app.use(serveStatic(__dirname + "/dist"));
-var port = process.env.PORT || 5000;
-app.listen(port);
 
 app.use('/api', painikePeliApi);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+});
+/*
+var server = app.listen(3000, function () {
+    var host = server.address().address;
+    //var port = process.env.PORT || 5000;
+    var port = server.address().port;
+    //
+    /* eslint-disable no-console*/
+    //console.log("Example app listening at http://%s:%s", host, port)
+    /* eslint-enable no-console*/
+//});
+/*
+
+app.listen(port);
+
+
 /*
 var server = app.listen(3000, function () {
     var host = server.address().address;
