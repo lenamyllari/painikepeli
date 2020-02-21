@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 //database configuration
-const config = require('../server/dbconfig.js');
+const config = require('./dbconfig.js');
 const db = config.database;
 const url = require('url');
 

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const painikePeliApi = require('../server/painikePeliApi.js');
+const painikePeliApi = require('./painikePeliApi.js');
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -32,7 +32,8 @@ var server = app.listen(3000, function () {
     /* eslint-enable no-console
 });
 */
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
+
