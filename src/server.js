@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const painikePeliApi = require('../server/painikePeliApi.js');
+const painikePeliApi = require('@/painikePeliApi.js');
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
