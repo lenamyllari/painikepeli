@@ -8,9 +8,9 @@ const url = require('url');
 
 const jwt = require('jsonwebtoken');
 
-
-const con = mysql.createPool({user: db.user, password: db.password, host: db.host, database: db.database});
-con.connect();
+const con = require("./db.js");
+//const con = mysql.createPool({user: db.user, password: db.password, host: db.host, database: db.database});
+//con.connect();
 
 //add a player
 router.get("/adduser", function (req, res) {

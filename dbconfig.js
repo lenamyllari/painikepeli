@@ -1,6 +1,6 @@
 module.exports = {
 
-    database:{
+
         //cleardb-corrugated-36622
         host: "eu-cdbr-west-02.cleardb.net",
        // host: "localhost",
@@ -10,5 +10,5 @@ module.exports = {
         //user: "test",
         //password: "test",
         //database: "painikepeli"
-    }
+
 };
