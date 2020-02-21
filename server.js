@@ -26,7 +26,7 @@ app.use(serveStatic(__dirname + "/dist"));
 var port = process.env.PORT || 5000;
 app.listen(port);
 
-//app.use('/api', painikePeliApi);
+app.use('/api', painikePeliApi);
 /*
 var server = app.listen(3000, function () {
     var host = server.address().address;
