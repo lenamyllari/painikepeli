@@ -1,8 +1,8 @@
 <template>
-    <div id="example-1">
-        <div v-if="saldo0">
-            Your saldo is 0. Want to start again?
-            <button v-on:click="resetsaldo">Yes!</button>
+    <div>
+        <div v-if="balance0">
+            Your balance is 0. Want to start again?
+            <button v-on:click="resetBalance">Yes!</button>
         </div>
         <button v-on:click="updateClicks"  :disabled="isDisabled">Click to win</button>
         <p v-if="win5" class="success-message">
@@ -12,8 +12,8 @@
         <p v-if="win250" class="success-message">
             ✅ You won 250
         <p>You have {{ money }} clicks left.</p>
-        <p>Total amount {{ totalClicks }} clicks.</p>
-        <p>Left till win {{ leftClicks }} clicks.</p>
+
+        <p>{{ leftClicks }} clicks till win.</p>
     </div>
 </template>
 
@@ -23,137 +23,137 @@
         name: "Painikepeli",
         data() {
             return{
+                //amount clicks the player has
                 money: '',
-                totalClicks:'',
+                //amount clicks till the next win
                 leftClicks: '',
+                //boolean for showing win 5 message
                 win5: false,
+                //boolean for showing win 40 message
                 win40: false,
+                //boolean for showing win 5 message
                 win250:false,
-                saldo0: false,
+                //boolean for showing the reset div
+                balance0: false,
+                //boolean for disabling of the click button
                 isDisabled: false,
+                //player's id
                 id: ''
-        }
+            }
         },
         methods:{
-            updatesaldo(){
-                this.win40 =false;
-                this.win250 = false;
-                this.win5 = false;
+            //decrease player's saldo by 1
+            updateBalance(){
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/updateSaldo/?id=" + this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
-
                     });
-                this.getsaldo();
-                this.getClicks();
+                //get the new balance
+                this.getBalance();
+                //get amount clicks till the next win from the database
+                this.getleft();
             },
-            getsaldo(){
+            //get player's balance from the database
+            getBalance(){
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/getsaldo/?id=" + this.id)
                     .then( response => {
-                        // eslint-disable-next-line no-console
-                        console.log(response);
                         if(response.data[0].money==0){
-                            this.saldo0=true;
+                            //show the reset div
+                            this.balance0=true;
+                            //make the click button non-active
                             this.isDisabled = true;
                         }
                         this.money = response.data[0].money;
                     });
             },
-            getClicks(){
-                axios
-                    .get("https://painikepeli2020lena.herokuapp.com/api/clicks/")
-                    .then( response => {
-                        // eslint-disable-next-line no-console
-                        //console.log(response);
-                        this.totalClicks = response.data[0].amount;
-                    });
-            },
+            //increase the total amount of clicks by 1 and check if it's time to win
             updateClicks(){
+                //hide win messages
+                this.win40 =false;
+                this.win250 = false;
+                this.win5 = false;
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/updateclicks/")
                     .then( response => {
-                        // eslint-disable-next-line no-console
-                        //console.log("update cliskc response" +response);
                         if(response.data[0].amount%500==0){
-                            this.addsaldo(250);
+                            this.addBalance(250);
+                            //show win message
                             this.win250 = true;
                         }
                         else if(response.data[0].amount%100==0){
-                            this.addsaldo(40);
+                            this.addBalance(40);
+                            //show win message
                             this.win40 = true;
                         }
                         else if(response.data[0].amount%10==0){
-                            console.log("adding 5");
-                            this.addsaldo(5);
+                            this.addBalance(5);
+                            //show win message
                             this.win5=true;
                         }
+                        //increase player's balance with the win amount
+                        this.updateBalance();
                     });
-                this.updatesaldo();
-                this.getleft();
             },
-            addsaldo(amount){
+            //increase player's balance with the win amount
+            addBalance(amount){
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/addsaldo/?amount=" + amount + "&&user="+this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
-
                     });
-                this.getsaldo();
+                //get the new balance
+                this.getBalance();
             },
+            //get amount clicks till the next win from the database
             getleft(){
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/clicks/")
                     .then( response => {
-                        // eslint-disable-next-line no-console
-                        //console.log(response);
                         var clicks = response.data[0].amount;
                         this.leftClicks = 10-clicks%10;
                     });
             },
-            resetsaldo(){
+            //set balance to 20 again
+            resetBalance(){
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/resetSaldo/?id=" + this.id)
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
-
                     });
-                this.getsaldo();
-                this.getClicks();
-                this.saldo0=false;
+                //get the new balance
+                this.getBalance();
+                //hide the div with the reset option
+                this.balance0=false;
+                //make the click button active
                 this.isDisabled=false;
             }
         },
         mounted(){
+            //if player's id is not found in cookies, create new player, get player's balance and amount clicks till the next win from the database
             if(this.$cookies.get('id') == null){
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/adduser/")
                     .then( response => {
-                        // eslint-disable-next-line no-console
-                        console.log(response);
                         var userid = parseInt(response.data);
-                        console.log("userid " + userid);
+                        //remember the id of the player
                         this.$cookies.set('id', userid);
                         this.id = this.$cookies.get('id');
-                        console.log("line 140, id " + this.id);
-                        this.getClicks();
-                        this.getsaldo();
+                        //get player's balance and amount clicks till the next win from the database
+                        this.getBalance();
                         this.getleft();
                     });
             }
+            //get player's id from the cookies, player's balance and amount clicks till the next win from the database
             else{
                 this.id = this.$cookies.get('id');
-                console.log("cookies " + this.$cookies.get('id'));
-                console.log("line 148, id " + this.id);
-                this.getClicks();
-                this.getsaldo();
+                this.getBalance();
                 this.getleft();
             }
-
         }
     }
 

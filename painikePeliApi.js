@@ -1,20 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');
-//database configuration
-const config = require('./dbconfig.js');
-const db = config.database;
 const url = require('url');
-
-const jwt = require('jsonwebtoken');
-
 const con = require("./db.js");
-//const con = mysql.createPool({user: db.user, password: db.password, host: db.host, database: db.database});
-//con.connect();
 
 //add a player
 router.get("/adduser", function (req, res) {
-
     var q = url.parse(req.url, true).query;
     var money = q.money;
     var sql = "INSERT INTO users (money)  VALUES (20)";
@@ -26,11 +16,8 @@ router.get("/adduser", function (req, res) {
             var id = result.insertId;
             console.log("line 26 " + result.insertId.toString());
             res.send(result.insertId.toString());
-
         }
-            });
-
-
+    });
 });
 
 //update saldo
@@ -86,7 +73,7 @@ router.get("/clicks", function (req, res) {
     });
 });
 
-//update amount clicks
+//update amount clicks and return the new amount
 router.get("/updateclicks", function (req, res) {
     var sql = "UPDATE clicks SET amount=amount+1 WHERE id=1";
     con.query(sql,function (err, result) {
@@ -101,7 +88,6 @@ router.get("/updateclicks", function (req, res) {
                     res.send(result);
                 }
             });
-
         }
     });
 
@@ -116,11 +102,8 @@ router.get("/addsaldo", function (req, res) {
         if (err)
             throw (err);
         else {
-
-                    res.send(result);
-                }
-
-
+            res.send(result);
+        }
     });
 
 });
