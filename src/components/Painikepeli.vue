@@ -99,7 +99,8 @@
                             //show win message
                             this.win5=true;
                         }
-
+                        //get the new balance
+                        this.getBalance();
 
                     });
             },
