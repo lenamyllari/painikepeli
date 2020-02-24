@@ -50,10 +50,10 @@
                         // eslint-disable-next-line no-console
                         console.log(response);
                     });
+                //get the new balance
+                this.getBalance();
                 //update the total click amount
                 this.updateClicks();
-
-
             },
             //get player's balance from the database
             getBalance(){
@@ -66,10 +66,14 @@
                             //make the click button non-active
                             this.isDisabled = true;
                         }
+                        else{
+                            //hide the div with the reset option
+                            this.balance0=false;
+                            //make the click button active
+                            this.isDisabled=false;
+                        }
                         this.money = response.data[0].money;
                     });
-                //get amount clicks till the next win from the database
-                this.getleft();
             },
             //increase the total amount of clicks by 1 and check if it's time to win
             updateClicks(){
@@ -77,31 +81,29 @@
                 this.win40 =false;
                 this.win250 = false;
                 this.win5 = false;
-
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/updateclicks/")
                     .then( response => {
-                        if(response.data[0].amount%500==0){
+                        var clicks = response.data[0].amount;
+                        if(clicks%500==0){
                             //increase player's balance with the win amount
                             this.addBalance(250);
                             //show win message
                             this.win250 = true;
                         }
-                        else if(response.data[0].amount%100==0){
+                        else if(clicks%100==0){
                             //increase player's balance with the win amount
                             this.addBalance(40);
                             //show win message
                             this.win40 = true;
                         }
-                        else if(response.data[0].amount%10==0){
+                        else if(clicks%10==0) {
                             //increase player's balance with the win amount
                             this.addBalance(5);
                             //show win message
-                            this.win5=true;
+                            this.win5 = true;
                         }
-                        //get the new balance
-                        this.getBalance();
-
+                        this.leftClicks = 10-clicks%10;
                     });
             },
             //increase player's balance with the win amount
@@ -112,6 +114,8 @@
                         // eslint-disable-next-line no-console
                         console.log(response);
                     });
+                //get the new balance
+                this.getBalance();
             },
             //get amount clicks till the next win from the database
             getleft(){
@@ -148,17 +152,15 @@
                         //remember the id of the player
                         this.$cookies.set('id', userid);
                         this.id = this.$cookies.get('id');
-                        //get player's balance and amount clicks till the next win from the database
-                        this.getBalance();
-                        this.getleft();
                     });
             }
-            //get player's id from the cookies, player's balance and amount clicks till the next win from the database
+            //get player's id from the cookies
             else{
                 this.id = this.$cookies.get('id');
-                this.getBalance();
-                this.getleft();
             }
+            //get player's balance and amount clicks till the next win from the database
+            this.getBalance();
+            this.getleft();
         }
     }
 
