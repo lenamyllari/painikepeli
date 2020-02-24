@@ -4,7 +4,7 @@
             Your balance is 0. Want to start again?
             <button v-on:click="resetBalance">Yes!</button>
         </div>
-        <button v-on:click="updateClicks"  :disabled="isDisabled">Click to win</button>
+        <button v-on:click="updateBalance"  :disabled="isDisabled">Click to win</button>
         <p v-if="win5" class="success-message">
         ✅ You won 5
         <p v-if="win40" class="success-message">
@@ -50,6 +50,8 @@
                         // eslint-disable-next-line no-console
                         console.log(response);
                     });
+                //update the total click amount
+                this.updateClicks();
                 //get the new balance
                 this.getBalance();
                 //get amount clicks till the next win from the database
@@ -75,26 +77,30 @@
                 this.win40 =false;
                 this.win250 = false;
                 this.win5 = false;
+
                 axios
                     .get("https://painikepeli2020lena.herokuapp.com/api/updateclicks/")
                     .then( response => {
                         if(response.data[0].amount%500==0){
+                            //increase player's balance with the win amount
                             this.addBalance(250);
                             //show win message
                             this.win250 = true;
                         }
                         else if(response.data[0].amount%100==0){
+                            //increase player's balance with the win amount
                             this.addBalance(40);
                             //show win message
                             this.win40 = true;
                         }
                         else if(response.data[0].amount%10==0){
+                            //increase player's balance with the win amount
                             this.addBalance(5);
                             //show win message
                             this.win5=true;
                         }
-                        //increase player's balance with the win amount
-                        this.updateBalance();
+
+
                     });
             },
             //increase player's balance with the win amount
@@ -105,8 +111,6 @@
                         // eslint-disable-next-line no-console
                         console.log(response);
                     });
-                //get the new balance
-                this.getBalance();
             },
             //get amount clicks till the next win from the database
             getleft(){
@@ -125,8 +129,6 @@
                         // eslint-disable-next-line no-console
                         console.log(response);
                     });
-                //get the new balance
-                this.getBalance();
                 //hide the div with the reset option
                 this.balance0=false;
                 //make the click button active
