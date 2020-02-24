@@ -113,9 +113,10 @@
                     .then( response => {
                         // eslint-disable-next-line no-console
                         console.log(response);
+                        //get the new balance
+                        this.getBalance();
                     });
-                //get the new balance
-                this.getBalance();
+
             },
             //get amount clicks till the next win from the database
             getleft(){
