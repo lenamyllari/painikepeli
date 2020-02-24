@@ -52,10 +52,8 @@
                     });
                 //update the total click amount
                 this.updateClicks();
-                //get the new balance
-                this.getBalance();
-                //get amount clicks till the next win from the database
-                this.getleft();
+
+
             },
             //get player's balance from the database
             getBalance(){
@@ -70,6 +68,8 @@
                         }
                         this.money = response.data[0].money;
                     });
+                //get amount clicks till the next win from the database
+                this.getleft();
             },
             //increase the total amount of clicks by 1 and check if it's time to win
             updateClicks(){
@@ -133,6 +133,8 @@
                 this.balance0=false;
                 //make the click button active
                 this.isDisabled=false;
+                //get the new balance
+                this.getBalance();
             }
         },
         mounted(){
